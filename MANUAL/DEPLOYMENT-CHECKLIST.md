@@ -22,7 +22,7 @@
 
 ## 二、 官方部署资产核验基准表 (Baseline Manifests)
 
-### 1. 🛠️ 技能系统基准表 (Skills System - 10 大组件)
+### 1. 🛠️ 技能系统基准表 (Skills System - 10 个技能 / 6 个目录)
 
 目标安装路径以 Pi Agent 规范为例（`~/.pi/agent/skills/`，Windows 下为 `$env:USERPROFILE\.pi\agent\skills\`）：
 
@@ -31,7 +31,7 @@
 | **S1** | **`softseep`** ⭐总控 | `~/.pi/agent/skills/softseep/` | `SKILL.md` + 10 篇 `references/` (≥11 项) | `SKILL.md`<br>`references/license-validation.md`<br>`references/gate-crosswalk.md` | 检查 10 篇 references 齐全，G0-G6 门控完整，三层门禁 crosswalk 在位 | 🟢 **核心**。缺失则总控瘫痪。修复：`powershell setup\install-pi.ps1` |
 | **S1b** | **`exe-reverse`** | `~/.pi/agent/skills/exe-reverse/` | `SKILL.md` + 41 refs + 16 scripts (≥65 项) | `SKILL.md`<br>`scripts/doctor.py`<br>`LOCAL-NOTES.md` | 运行 `python scripts/doctor.py`（应输出 16/16 scripts runnable）；`references/routing.md` 在位 | 🟢 **核心**。Windows PE 深水区引擎。修复：重跑 `install-pi.ps1` |
 | **S2** | **`apkseep`** | `~/.pi/agent/skills/apkseep/` | `SKILL.md` + 45 refs + 56 scripts (≥115 项) | `SKILL.md`<br>`scripts/doctor.py` | 运行 `python scripts/doctor.py` 无报错 | 🟢 **核心**。安卓全链路专精。修复：重跑 `install-pi.ps1` |
-| **S3** | **`ida-reverse`** | `~/.pi/agent/skills/ida-reverse/` | `SKILL.md` (≥1 项) | `SKILL.md` | 包含 IDA 13337 端口自动唤醒规约 | 🟢 **核心**。IDA 自动化调度器。修复：重跑 `install-pi.ps1` |
+| **S3** | **`ida-reverse`** | `~/.pi/agent/skills/ida-reverse/` | `SKILL.md` + `scripts/` (≥3 项) | `SKILL.md`<br>`scripts/start.ps1` | 包含 IDA 13337 端口自动唤醒规约 | 🟢 **核心**。IDA 自动化调度器。修复：重跑 `install-pi.ps1` |
 | **S4** | **`client-license-validation-bypass`** | `~/.pi/agent/skills/client-license-validation-bypass/` | `SKILL.md` (≥1 项) | `SKILL.md` | 包含 CWE-602 战术树与补丁/算号决策 | 🟢 **核心**。授权审计战术库。修复：重跑 `install-pi.ps1` |
 | **S5** | **`reverse-engineering`** | `~/.pi/agent/skills/reverse-engineering/` | `SKILL.md` + references (≥15 项) | `SKILL.md` | 通用逆向基准规则在位 | 🟢 战术包。修复：复制 `Tool/skill/safe-skills/reverse-engineering` |
 | **S6** | **`apk-diff`** | `~/.pi/agent/skills/apk-diff/` | `SKILL.md` + scripts (≥8 项) | `SKILL.md` | 二进制与 APK 差分工具在位 | 🟢 战术包。修复：复制 `Tool/skill/safe-skills/apk-diff` |
@@ -74,9 +74,9 @@ MCP 配置文件所在位置：
 
 | # | 工具名称 | 所在相对目录 | 预期体积/构建版本 | 核心执行文件 | 验证测试命令 |
 |---|---|---|---|---|---|
-| **T1** | **`radare2`** | `Tool/mcp/Tool/safe/radare2/` | v6.2.2 全套 (~39MB) | `bin/radare2.exe`<br>`bin/rabin2.exe` | `.\Tool\mcp\Tool\safe\radare2\bin\rabin2.exe -v` |
+| **T1** | **`radare2`** | `Tool/mcp/Tool/safe/radare2/` | v5.9.8 全套 (~39MB) | `bin/radare2.exe`<br>`bin/rabin2.exe` | `.\Tool\mcp\Tool\safe\radare2\bin\rabin2.exe -v` |
 | **T2** | **`jadx`** | `Tool/mcp/Tool/safe/jadx/` | v1.5.6 纯净优化版 (~75MB) | `bin/jadx.bat`<br>`lib/jadx-1.5.6-all.jar` | `.\Tool\mcp\Tool\safe\jadx\bin\jadx.bat --version` |
-| **T3** | **`apktool`** | `Tool/mcp/Tool/safe/apktool/` | v3.0.3 (~24MB) | `apktool.jar`<br>`apktool.bat` | 需 Java 17 支持。运行 `apktool.bat -version` |
+| **T3** | **`apktool`** | `Tool/mcp/Tool/safe/apktool/` | v2.11.0 (~24MB) | `apktool.jar`<br>`apktool.bat` | 需 Java 17 支持。运行 `apktool.bat -version` |
 | **T4** | **`hook-mcp`** | `Tool/mcp/Tool/safe/hook-mcp/` | 模板库目录 | `templates/frida/`<br>`templates/lspilot/` | 检查模板文件是否存在 |
 | **T5** | **`js-reverse-mcp`** | `Tool/mcp/Tool/safe/js-reverse-mcp/` | 需完成解压 | `node_modules/` 目录存在 | 检查目录或运行 `setup\extract-deps.ps1` |
 | **T6** | **`playwright-mcp`** | `Tool/mcp/Tool/safe/playwright-mcp/` | 需完成解压 | `node_modules/` 目录存在 | 检查目录或运行 `setup\extract-deps.ps1` |
@@ -87,10 +87,10 @@ MCP 配置文件所在位置：
 
 | # | 模块名 | 所在相对目录 | 官方预期数量 | 作用与覆盖面 |
 |---|---|---|---|---|
-| **K1** | **战术实战笔记 (KB)** | `Tool/mcp/Tool/reverselab/kb/` | **≥289 篇** Markdown 文件 | `ctf-website`、`pe-reverse`、`apk-reverse`、`windows`、`general` 全量攻防笔记 |
+| **K1** | **战术实战笔记 (KB)** | `Tool/mcp/Tool/reverselab/kb/` | **≥294 篇** Markdown 文件 | `ctf-website`、`pe-reverse`、`apk-reverse`、`windows`、`general` 全量攻防笔记 |
 | **K2** | **攻击网图谱 (Boards)** | `Tool/mcp/Tool/reverselab/boards/` | 多平台拓扑文件 | 信号到战术文档的拓扑路由关系 |
 | **K3** | **脱敏实战案例库** | `Tool/cases/` | **14 个项目工程** (项目A ~ 项目N) | 覆盖单进程、多进程、VM、.NET算号、RSA、Java/install4j 双层鉴权、.NET VM 混淆加固等架构 |
-| **K4** | **上游开源完整镜像** | `Tool/upstream/` | **3 大开源项目** | `apk-reverse`、`open-tgtylab`、`open-reverselab` 完整单测与镜像 |
+| **K4** | **上游开源完整镜像** | `Tool/upstream/` | **4 大开源项目** | `apk-reverse`、`open-tgtylab`、`open-reverselab`、`exe-reverse` 完整单测与镜像 |
 | **K5** | **MANUAL 专项手册** | `MANUAL/` | **8 份核心手册** | `DEPLOYMENT` (部署)、`DEPLOYMENT-CHECKLIST` (基准清单)、`CROSS-PLATFORM` (跨平台)、`COMPLIANCE-RELAY` (合规中继与防拒)、`ANTI-DEBUG` (反调试)、`UNPACKING` (脱壳)、`POC-VALIDATION` (PoC自愈)、`IDA-PRO` (IDA接入) |
 
 ---
@@ -150,7 +150,7 @@ MCP 配置文件所在位置：
 #### 2. 🔌 MCP 服务引擎 (4项)
 | 服务名 | 配置文件载体 | 期望工具数 | 实际状态 | 状态判定 | 降级/处置说明 |
 |---|---|---|---|---|---|
-| seep (自研) | ~/.pi/agent/mcp.json | 23 工具 | Connected (23) | 🟢 READY | 核心二进制/安卓/知识库能力完备 |
+| seep (自研) | ~/.pi/agent/mcp.json | 38 工具 | Connected (38) | 🟢 READY | 二进制 / PE / 安卓 / Web 流媒体 / 知识库能力完备 |
 | ida (商业) | ~/.pi/agent/mcp.json | ~243 工具 | 未监听 (13337) | 🟡 DEGRADED | 已自动降级为内置 Radare2，主链路 100% 可用 |
 | js-reverse | ~/.pi/agent/mcp.json | 12 工具 | 可用 (npx) | 🟢 READY | JS 逆向引擎就绪 |
 | playwright | ~/.pi/agent/mcp.json | 18 工具 | Token待配置 | 🟡 DEGRADED | 无头浏览器可选，不影响二进制逆向 |
@@ -158,12 +158,51 @@ MCP 配置文件所在位置：
 #### 3. 🔧 运行时与内置工具箱 (Native Tools)
 | 工具 | 预期版本/文件 | 实际状态 | 状态 | 说明 |
 |---|---|---|---|---|
-| Radare2 | v6.2.2 (radare2.exe) | 物理就绪 | 🟢 READY | 二进制反编译/反汇编引擎正常 |
+| Radare2 | v5.9.8 (radare2.exe) | 物理就绪 | 🟢 READY | 二进制反编译/反汇编引擎正常 |
 | Jadx | v1.5.6 (jadx.bat) | 物理就绪 | 🟢 READY | Java 源码反编译引擎正常 |
-| Apktool | v3.0.3 (apktool.jar) | 物理就绪 | 🟢 READY | 资源解包与重打包正常 |
-| 攻防知识库 | ≥289 篇笔记 | 物理就绪 (318 篇) | 🟢 READY | seep_kb_* 检索后端就绪 |
+| Apktool | v2.11.0 (apktool.jar) | 物理就绪 | 🟢 READY | 资源解包与重打包正常 |
+| 攻防知识库 | ≥294 篇笔记 | 物理就绪 (318 篇) | 🟢 READY | seep_kb_* 检索后端就绪 |
+
+#### 3b. 🧰 外部能力包 (External Capabilities)
+| 组件 | 谁在用 | 期望 | Windows 补全 | Unix 补全 | 缺失判定 |
+|---|---|---|---|---|---|
+| ffmpeg + ffprobe | `seep_hls_analyze` | 可执行且在 PATH / 工具箱内 | `setup\install-capabilities.ps1 -Only web` | `./setup/install-capabilities.sh --only web` | 🟡 DEGRADED |
+| frida + objection | `seep_android_toolbox`、动态插桩 | 可执行 | `-Only android` | `--only android` | 🟡 DEGRADED |
+| apkid | `seep_apkid_scan` | 可执行 | `-Only android` | `--only android` | 🟡 DEGRADED |
+| nuclei + ffuf | `seep_web_report`（可选） | 可执行 | `-Only scanners` | `--only scanners` | 🟡 DEGRADED |
+| aotopsy | `seep_aotopsy`（Flutter AOT） | Windows PE | `-Only aotopsy`（仓库自带，零网络） | 🔴 不支持 | 🟡 DEGRADED / N/A |
+
+> **判定原则**：外部程序不在仓库里（体积 / 平台 / 版本耦合），缺失**不阻塞 MCP 启动**。
+> 相关工具会返回明确的修复指引，其余工具照常工作 —— 所以统一归 `🟡 DEGRADED`，不判 `🔴 MISSING`。
+>
+> **平台边界**：`aotopsy` 是 Windows PE 单文件，Unix 不适用；8 个 `seep_web_*` 工具依赖
+> PowerShell 取证脚本，Unix 需先安装 PowerShell 7。详见 [CROSS-PLATFORM.md](CROSS-PLATFORM.md)。
+
+#### 3c. 🧭 外部工具定位规则 (Tool Registry)
+
+外部工具「装在哪都行」，所以路径不能写死在代码里。规则集中声明在 `setup/tool-registry.json`：
+
+| 层 | 来源 | 典型值 |
+|---|---|---|
+| 1 | 环境变量 | `SEEP_PYTHON` / `SEEP_IDA_ROOT` / `SEEP_WEB_TOOLBOX` / `SEEP_ANDROID_TOOLBOX` |
+| 2 | 解析缓存 | `~/.seep/tools.json`（上次找到的位置） |
+| 3 | 仓库自带 | `<repo>/Tool/mcp/Tool/safe/...` |
+| 4 | 系统 PATH | `Get-Command` / `shutil.which` |
+| 5 | 常见安装位 | `Program Files` / `D:\Tool` / `~/.seep` |
+
+| 验证入口 | 平台 | 作用 |
+|---|---|---|
+| `setup\resolve-tools.ps1 -Verify` | Windows | 解析 + **实跑**（判断「是否真的能启动」） |
+| `python Tool/mcp/tool_resolver.py --verify` | 全平台 | 同上（纯标准库实现） |
+| `python setup/test_tool_resolver_parity.py` | 全平台 | 校验两个求值器判定一致 |
+
+四态：`READY`（找到且实跑成功）/ `DEGRADED`（找到但跑不起来）/ `OPTIONAL`（可选未装，不阻断）/ `MISSING`（核心缺失，阻断）。
+
+> **为什么这么设计**：你的 IDA 在 `D:\Tool\IDA Pro`，别人的可能在 `E:\Rev\IDA`，也可能根本没装。
+> 用某一台机器的路径去要求所有人，就会出现「明明装了却报缺失」。
+> 解析链 + 环境变量覆盖 + 四态，保证同一套脚本在任意机器上给出正确结论。
 
 #### 4. 🚀 总结与开工建议
-- **系统评估**：核心组件与 9 大 Skill 100% 部署成功，工作台处于 **[READY / 完备就绪]** 状态；
+- **系统评估**：核心组件与 10 个 Skill 100% 部署成功，工作台处于 **[READY / 完备就绪]** 状态；
 - **操作指令**：请退出并重启当前终端与 Agent 会话，在对话框中输入 **`lab：`** 开启白盒测试！
 ```
